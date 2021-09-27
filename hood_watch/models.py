@@ -6,12 +6,13 @@ from django.dispatch import receiver
 import datetime as dt
 import numpy as np
 
-class User(models.Model):
 
-    name = models.CharField(max_length =20, default="bio")
-    hood = models.CharField(max_length=20, null=True, default="hood")
+class User(models.Model):
+    
+    name = models.CharField(max_length =20, default="name")
     
     profile_pic = models.ImageField(upload_to='images/profiles/', blank=True, default = 0)
+    
     email = models.EmailField(blank=True, default="email")
     contact = models.IntegerField(blank=True, default=0)
 
@@ -19,4 +20,62 @@ class User(models.Model):
         self.save()
 
     def __str__(self):
-        return self
+        return self.name
+
+
+class Hood(models.Model):
+
+    hood_photo = models.ImageField(upload_to='images/hoods/')
+    name = models.CharField(max_length=100, null=True, default="name")
+    occupants_count = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    police_contact = models.IntegerField(blank=True, default=0)
+    health_contact = models.IntegerField(blank=True, default=0)
+
+
+    @classmethod
+    def get_hoods(cls):
+        hoods = Hood.objects.all()
+        return hoods
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length = 20, default="title")
+    post_image = models.ImageField(upload_to='images/posts', blank=True)
+    content = models.TextField(max_length = 500, blank=True)
+
+    def save(self):
+        self.save()
+
+    @classmethod
+    def get_posts(cls):
+        posts = Post.objects.all()
+        return posts
+
+    def __str__(self):
+        return self.title
+
+
+class Business(models.Model):
+    business_pic = models.ImageField(upload_to='images/business/',null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(max_length=200, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, null=True)
+
+    def save(self):
+        self.save()
+
+    @classmethod
+    def get_businesses(cls):
+        businesses = Business.objects.all()
+        return businesses
+
+    def __str__(self):
+        return self.name

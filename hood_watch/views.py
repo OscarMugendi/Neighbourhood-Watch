@@ -19,8 +19,8 @@ from django.core.mail import EmailMessage
 from django.contrib.auth import login, authenticate
 from .emails import send_welcome_email
 
-from .models import User
-from .forms import ProfileForm
+from .models import *
+from .forms import *
 
 import datetime as dt
 
@@ -28,16 +28,19 @@ import datetime as dt
 
 def home(request):
     current_user = request.user
+    neighbourhoods = Hood.objects.all()
 
-    return render(request,"home.html",)
+    return render(request,"home.html", {"neighbourhoods": neighbourhoods})
 
 
 @login_required(login_url='/accounts/login/')
 def profile(request, id):
     user = request.user
     user_id = user.id
-    profile = User.objects.get(user=user)
     userf = User.objects.get(pk=user_id)
+    my_profile = User.objects.get(user=request.user)
+    my_hoods = Hood.objects.filter(user=request.user).all()
+    my_businesses = Business.objects.filter(user=request.user).all()
 
     if userf:
         print('User found!')
@@ -54,6 +57,8 @@ def profile(request, id):
 def update_profile(request,id):
     current_user = request.user 
     title = 'Update Profile'
+    profile = User.objects.get(user=request.user)
+
     try:
 
         requested_profile = User.objects.get(user_id = current_user.id)
