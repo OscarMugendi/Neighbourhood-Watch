@@ -7,8 +7,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     url('^$', views.home, name='home'),
     path('account/', include('django.contrib.auth.urls')),
-    path('profile/$', views.profile, name='profile'),
-    path('profile/update/$', views.update_profile, name='update_profile'),
+    path('profile/<id>/', views.profile, name='profile'),
+    path('profile/<id>/update/', views.update_profile, name='update_profile'),
 ]
 
 if settings.DEBUG:

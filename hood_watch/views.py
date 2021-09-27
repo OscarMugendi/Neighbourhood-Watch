@@ -28,9 +28,8 @@ import datetime as dt
 
 def home(request):
     current_user = request.user
-    neighbourhoods = Hood.objects.all()
 
-    return render(request,"home.html", {"neighbourhoods": neighbourhoods})
+    return render(request,"home.html")
 
 
 @login_required(login_url='/accounts/login/')
@@ -38,13 +37,10 @@ def profile(request, id):
     user = request.user
     user_id = user.id
     userf = User.objects.get(pk=user_id)
-    my_profile = User.objects.get(user=request.user)
-    my_hoods = Hood.objects.filter(user=request.user).all()
-    my_businesses = Business.objects.filter(user=request.user).all()
 
     if userf:
         print('User found!')
-        profile = User.objects.get(user=userf)
+        profile = User.objects.get(id=user.id)
 
     else:
 
@@ -57,25 +53,22 @@ def profile(request, id):
 def update_profile(request,id):
     current_user = request.user 
     title = 'Update Profile'
-    profile = User.objects.get(user=request.user)
+    profile = Profile.objects.get(id=current_user.id)
 
     try:
 
-        requested_profile = User.objects.get(user_id = current_user.id)
+        requested_profile = Profile.objects.get(id = current_user.id)
         if request.method == 'POST':
 
             form = ProfileForm(request.POST,request.FILES)
 
             if form.is_valid():
-                requested_profile.name = form.cleaned_data['name']
-                requested_profile.hood = form.cleaned_data['hood']
                 requested_profile.profile_pic = form.cleaned_data['profile_pic']
                 requested_profile.email = form.cleaned_data['email']
                 requested_profile.contact = form.cleaned_data['contact']
                 requested_profile.user_id= current_user
-                requested_profile.image_id = current_image
 
-                requested_profile.save_profile()
+                requested_profile.save()
 
                 return redirect(profile)
         else:
@@ -89,7 +82,7 @@ def update_profile(request,id):
 
             if form.is_valid():
 
-                new_profile = User(name = form.cleaned_data['name'], hood = form.cleaned_data['hood'], profile_pic = form.cleaned_data['profile_pic'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
+                new_profile = Profile(profile_pic = form.cleaned_data['profile_pic'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
                 new_profile.save()
 
                 return redirect(profile)

@@ -9,21 +9,21 @@
     <div class="col-md-8">
         <div class="row">
             
-            {% if user.profile_pic %}
+            {% if user.profile.profile_pic %}
             <br>
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <img src="{{user.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
+                <img src="{{user.profile.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
             </div>
 
             {% endif %}
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
-                <h5 style="font-size:35px;"><b>{{user.name}}</b></h5>
+                <h5 style="font-size:35px;"><b>{{profile.user.name}}</b></h5>
                 <br>
-                <p><b>Email Address: </b>{{user.email}}</p>
+                <p><b>Email Address: </b>{{user.profile.email}}</p>
                 <br>
-                <p><b>Contact Info: </b>0/{{user.contact}}</p>
+                <p><b>Contact Info: </b>0/{{user.profile.contact}}</p>
                 <br>
             </div>
         </div>

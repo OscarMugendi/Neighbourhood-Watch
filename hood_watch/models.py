@@ -7,20 +7,32 @@ import datetime as dt
 import numpy as np
 
 
-class User(models.Model):
+class Profile(models.Model):
     
-    name = models.CharField(max_length =20, default="name")
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     
     profile_pic = models.ImageField(upload_to='images/profiles/', blank=True, default = 0)
     
     email = models.EmailField(blank=True, default="email")
     contact = models.IntegerField(blank=True, default=0)
 
-    def save(self):
-        self.save()
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
 
-    def __str__(self):
-        return self.name
+        post_save.connect(create_user_profile, sender=User)
+
+    @receiver(post_save, sender=User)
+    def update_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+        instance.profile.save()
+
+    @classmethod
+    def get_profile(cls):
+        profile = Profile.objects.all()
+        return profile
 
 
 class Hood(models.Model):

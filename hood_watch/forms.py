@@ -6,9 +6,6 @@ from django.forms import ModelForm, Textarea, IntegerField, EmailField, CharFiel
 
 
 class ProfileForm(forms.Form):
-
-    name = forms.CharField(max_length =20, label='Username')
-
     profile_pic = forms.ImageField(required = False, label = 'Image Field') 
     email = forms.EmailField(required = False, label='Email')
     contact = forms.IntegerField(required = False, label='Contact')
