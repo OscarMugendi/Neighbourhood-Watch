@@ -25,13 +25,15 @@ class User(models.Model):
 
 class Hood(models.Model):
 
-    hood_photo = models.ImageField(upload_to='images/hoods/')
+    hood_photo = models.ImageField(upload_to='images/hoods/', default = 0)
     name = models.CharField(max_length=100, null=True, default="name")
     occupants_count = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     police_contact = models.IntegerField(blank=True, default=0)
     health_contact = models.IntegerField(blank=True, default=0)
 
+    def save(self):
+        self.save()
 
     @classmethod
     def get_hoods(cls):
@@ -46,8 +48,8 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length = 20, default="title")
-    post_image = models.ImageField(upload_to='images/posts', blank=True)
-    content = models.TextField(max_length = 500, blank=True)
+    post_image = models.ImageField(upload_to='images/posts', blank=True, default = 0)
+    content = models.TextField(max_length = 500, blank=True, default="content")
 
     def save(self):
         self.save()
@@ -62,10 +64,10 @@ class Post(models.Model):
 
 
 class Business(models.Model):
-    business_pic = models.ImageField(upload_to='images/business/',null=True, blank=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
-    description = models.TextField(max_length=200, blank=True, null=True)
-    email = models.CharField(max_length=100, blank=True, null=True)
+    business_pic = models.ImageField(upload_to='images/business/',null=True, blank=True, default = 0)
+    name = models.CharField(max_length=100, blank=True, null=True, default="name")
+    description = models.TextField(max_length=200, blank=True, null=True, default="description")
+    email = models.CharField(max_length=100, blank=True, null=True, default="email")
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     hood = models.ForeignKey(Hood, on_delete=models.CASCADE, null=True)
 
