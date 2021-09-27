@@ -1,0 +1,2 @@
+
+Hello {{name}}. Welcome to the Neighbourhood Watch community. This email is sent automatically after successful registration.

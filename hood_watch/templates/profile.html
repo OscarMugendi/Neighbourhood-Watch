@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user %}
+
+<div class="container">
+    <br>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            
+            {% if user.profile_pic %}
+            <br>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <img src="{{user.profile_pic.url}}" class="img-responsive img-rounded" style="float:left; height:300px; width:300px;">
+            </div>
+
+            {% endif %}
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
+                <h5 style="font-size:35px;"><b>{{user.name}}</b></h5>
+                <br>
+                <h6><b>Neighbourhood: </b>{{user.hood}}</h6>
+                <p><b>Email Address: </b>{{user.email}}</p>
+                <br>
+                <p><b>Contact Info: </b>0/{{user.contact}}</p>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+
+
+    <a href="{% url 'update_profile' user.id%}">
+        <button class="btn btn-primary">Update Profile</button>
+    </a>
+</div>
+
+{% else%}
+
+<div class="container">
+    <h3 style="text-align:center">User does not exist.</h3>
+    <br>
+    <br>
+    {% if user == current_user%}
+
+    <a href="{% url 'update_profile' user.id %}">
+        <button class="btn btn-primary">Create Profile</button>
+    </a>
+
+    {% endif %}
+</div>
+
+{% endif %}
+
+{% endblock %}
