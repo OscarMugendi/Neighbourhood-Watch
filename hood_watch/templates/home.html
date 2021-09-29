@@ -31,7 +31,9 @@
 {% if user.is_authenticated and request.user.profile.neighbourhood %}
 
 <div class="container text-center">
-    <h2> You are logged in.</h2>
+    <h4>Account status:&nbsp;&nbsp; <b style = "color:green">Logged in</b></h4>
+    <br>
+    <h4>Hood status:&nbsp;&nbsp; <b style = "color:green">Active Member</b></h4>
 </div>
 <br>
 <hr>
@@ -40,8 +42,12 @@
 {% elif user.is_authenticated and not request.user.profile.neighbourhood %}
 
 <div class="container text-center">
-    <a href="{% url 'hoods' hood.id %}">
-        <button class="btn btn-info btn-lg">Join the Watch!!</button>
+    <h4>Account status:&nbsp;&nbsp; <b style = "color:green">Logged in</b></h4>
+    <br>
+    <h4>Hood status:&nbsp;&nbsp; <b style = "color:red">Inactive</b></h4>
+    <br>
+    <a href="{% url 'hoods' %}">
+        <button class="btn btn-info btn-lg">Choose your Neighbourhood.</button>
     </a>
 </div>
 <br>
