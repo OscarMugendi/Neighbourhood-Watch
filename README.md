@@ -27,7 +27,7 @@ A simplistic Django application that provides a secure forum for communication w
 - Run the application.
 
 # Live Page
-A live version of this application is available at:- https://my-ip-a-moringa-app.herokuapp.com/
+A live version of this application is available at:- https://moringa-hood-watch.herokuapp.com/
 
 # Known Bugs
 - 
