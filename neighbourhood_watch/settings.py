@@ -145,7 +145,7 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'test.user.python3.6@gmail.com'
 EMAIL_HOST_PASSWORD = 'codingstudent001'
 
-LOGIN_REDIRECT_URL='update_profile'
+LOGIN_REDIRECT_URL='home'
 LOGOUT_REDIRECT_URL='home'
 
 

@@ -19,13 +19,18 @@
             {% endif %}
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="padding:10px;">
-                <h5 style="font-size:35px;"><b>{{profile.user.name}}</b></h5>
+                <h5 style="font-size:35px;"><b>{{user.username}}</b></h5>
                 <br>
-                <p><b>Email Address: </b>{{user.profile.email}}</p>
-                <br>
-                <p><b>Contact Info: </b>0/{{user.profile.contact}}</p>
+                <p><b>Email Address: </b>{{user.email}}</p>
                 <br>
             </div>
+
+            {% if request.user.profile.neighbourhood %}
+            <br>
+            <p class="text-center">My Hood:&nbsp;&nbsp; <a class="btn btn-md btn-info" href="{% url 'hood' user.profile.neighbourhood.id %}">{{ user.profile.neighbourhood.name }}</a></p>
+            <br>
+            {% endif %}
+
         </div>
     </div>
     <div class="col-md-2"></div>

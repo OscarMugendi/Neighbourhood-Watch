@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<table class="table table-striped table-light">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email Address</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for neighbour in neighbours %}
+    <tr>
+      <th scope="row">*</th>
+      <td>{{ neighbour.user.username }}</td>
+      <td>{{ neighbour.email}}</td>
+    </tr>
+  {% endfor %}
+  
+  </tbody>
+</table>
+
+{% endblock %}

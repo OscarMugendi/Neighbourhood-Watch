@@ -33,62 +33,120 @@ def home(request):
 
 
 @login_required(login_url='/accounts/login/')
-def profile(request, id):
-    user = request.user
-    user_id = user.id
-    userf = User.objects.get(pk=user_id)
-
-    if userf:
-        print('User found!')
-        profile = User.objects.get(id=user.id)
-
-    else:
-
-        print('User not found!')
-
-    return render (request, 'profile.html', {'user':user,})
+def profile(request, username):
+    return render(request, 'profile.html')
 
 
 @login_required(login_url='/accounts/login/')
-def update_profile(request,id):
-    current_user = request.user 
-    title = 'Update Profile'
-    profile = Profile.objects.get(id=current_user.id)
+def update_profile(request, username):
+    user = User.objects.get(username=username)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
-    try:
+        if form.is_valid():
+            form.save()
 
-        requested_profile = Profile.objects.get(id = current_user.id)
-        if request.method == 'POST':
+            return redirect('profile', user.username)
+    else:
+        form = ProfileForm(instance=request.user.profile)
 
-            form = ProfileForm(request.POST,request.FILES)
+    return render(request, 'update_profile.html', {'form': form})
 
-            if form.is_valid():
-                requested_profile.profile_pic = form.cleaned_data['profile_pic']
-                requested_profile.email = form.cleaned_data['email']
-                requested_profile.contact = form.cleaned_data['contact']
-                requested_profile.user_id= current_user
 
-                requested_profile.save()
+# @login_required(login_url='/accounts/login/')
+def hoods(request):
+    all_hoods = Neighbourhood.objects.all()
+    all_hoods = all_hoods[::-1]
+    return render(request, 'hoods.html',{"all_hoods": all_hoods})
 
-                return redirect(profile)
-        else:
-            
-            form = ProfileForm()
 
-    except:
-        if request.method == 'POST':
+@login_required(login_url='/accounts/login/')
+def hood(request, hood_id):
+    hood = Neighbourhood.objects.get(id=hood_id)
+    business = Business.objects.filter(neighbourhood=hood)
+    posts = Post.objects.filter(neighbourhood=hood)
+    posts = posts[::-1]
 
-            form = ProfileForm(request.POST,request.FILES)
+    return render(request, 'hood.html',{"hood": hood, "business": business, "posts": posts})
 
-            if form.is_valid():
 
-                new_profile = Profile(profile_pic = form.cleaned_data['profile_pic'], email = form.cleaned_data['email'], contact = form.cleaned_data['contact'], user = current_user)
-                new_profile.save()
+def new_business(request, hood_id):
+    current_user = request.user
+    hood_id = Neighbourhood.id
+    hood = Neighbourhood
 
-                return redirect(profile)
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
 
-        else:
+            business = form.save(commit=False)
+            business.user = current_user.profile
+            business.hood = hood
+            business.save()
 
-            form = ProfileForm()
+            return redirect('hood', hood.id)
 
-    return render(request,'update_profile.html',{"title":title,"current_user":current_user,"form":form})
+    else:
+        form = BusinessForm()
+        
+    return render(request, 'business.html', {"form": form})
+
+
+@login_required(login_url='/accounts/login/')
+def neighbours(request, hood_id):
+    hood = Neighbourhood.objects.get(id=hood_id)
+    neighbours = Profile.objects.filter(neighbourhood=hood)
+    return render(request, 'neighbours.html', {"neighbours": neighbours})
+
+
+@login_required(login_url='/accounts/login/')
+def new_post(request, hood_id):
+    hood = Neighbourhood.objects.get(id=hood_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.hood = hood
+            post.user = request.user.profile
+            post.save()
+
+            return redirect('hood', hood.id)
+    else:
+        form = PostForm()
+
+    return render(request, 'post.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def join_hood(request, id):
+    neighbourhood = get_object_or_404(Neighbourhood, id=id)
+    request.user.profile.neighbourhood = neighbourhood
+    request.user.profile.save()
+    return redirect('hood')
+
+
+@login_required(login_url='/accounts/login/')
+def leave_hood(request, id):
+    hood = get_object_or_404(Neighbourhood, id=id)
+    request.user.profile.neighbourhood = None
+    request.user.profile.save()
+    return redirect('hood')
+
+
+@login_required(login_url='/accounts/login/')
+def search_business(request):
+    if request.method == 'GET':
+        name = request.GET.get("title")
+        results = Business.objects.filter(name__icontains=name).all()
+
+        print(results)
+
+        message = f'name'
+
+        return render(request, 'search.html', {'results': results, 'message': message})
+        
+    else:
+        message = "Invalid Parameters!"
+
+    return render(request, "search.html")

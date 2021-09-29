@@ -1,4 +1,5 @@
 from .models import *
+from django.db.models import ImageField
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -6,18 +7,18 @@ from django.forms import ModelForm, Textarea, IntegerField, EmailField, CharFiel
 
 
 class ProfileForm(forms.Form):
-    profile_pic = forms.ImageField(required = False, label = 'Image Field') 
-    email = forms.EmailField(required = False, label='Email')
-    contact = forms.IntegerField(required = False, label='Contact')
+    class Meta:
+        model = Profile
+        exclude = ('user', 'neighbourhood')
 
 
 class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
-        exclude = ['user','hood']
+        exclude = ('user', 'neighbourhood')
 
 
 class PostForm(forms.ModelForm):    
     class Meta:
         model = Post
-        exclude = ['user']
+        exclude = ('user', 'hood')

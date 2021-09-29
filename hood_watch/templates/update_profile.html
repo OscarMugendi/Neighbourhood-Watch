@@ -11,7 +11,7 @@
         <br>
 
         <div class="panel-body">
-            <form action="/profile/<id>/update/" method="post">
+            <form action="/profile/<username>/update/" method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <div class="form-group">
