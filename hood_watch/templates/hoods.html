@@ -16,6 +16,8 @@
                     <a class="card-title" href="{% url 'hood' hood.id%}"><b>{{ hood.name }}</b></a>
                     <br>
                     <br>
+                    <p>Location: <b>{{ hood.location }}</b></p>
+                    <br>
                     
                     {% if user.is_authenticated %}
                         {% if request.user.profile.neighbourhood == hood %}
