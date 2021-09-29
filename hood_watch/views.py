@@ -123,7 +123,7 @@ def join_hood(request, id):
     neighbourhood = get_object_or_404(Neighbourhood, id=id)
     request.user.profile.neighbourhood = neighbourhood
     request.user.profile.save()
-    return redirect('hood')
+    return redirect('hood', hood.id)
 
 
 @login_required(login_url='/accounts/login/')
@@ -131,7 +131,7 @@ def leave_hood(request, id):
     hood = get_object_or_404(Neighbourhood, id=id)
     request.user.profile.neighbourhood = None
     request.user.profile.save()
-    return redirect('hood')
+    return redirect('hood', hood.id)
 
 
 @login_required(login_url='/accounts/login/')
