@@ -28,8 +28,10 @@ import datetime as dt
 
 def home(request):
     current_user = request.user
+    all_hoods = Neighbourhood.objects.all()
+    all_hoods = all_hoods[::-1]
 
-    return render(request,"home.html")
+    return render(request,"home.html",{"all_hoods": all_hoods})
 
 
 @login_required(login_url='/accounts/login/')
