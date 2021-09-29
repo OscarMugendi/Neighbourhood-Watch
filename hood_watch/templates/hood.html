@@ -21,7 +21,7 @@
                             <h6 class="card-text">
                                 <span><strong>{{hood.neighbour.count}}&nbsp;</strong> Neighbour{{hood.neighbour.count|pluralize}}&nbsp;</span>
                                 | <strong>{{ hood.business.count }}&nbsp;</strong> Businesses | <strong>
-                                {{ hood.post.count }}&nbsp;</strong> Posts{{ hood.post.count|pluralize }}
+                                {{ hood.post.count }}&nbsp;</strong> Post{{ hood.post.count|pluralize }}
                             </h6>
                             <br>
                             <br>
@@ -45,7 +45,6 @@
                 {% endif %}
 
                 <br>
-                <br>
                 <hr>
                 <br>
                 <br>
@@ -59,37 +58,14 @@
                 <br>
                 <hr>
                 <br>
-                <h3 class="D-block mx-auto tt text-center"><b>Businesses</b></h3>
-                <br>
-                <div class="row">
-                    {% for business in businesses %}
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">{{business.name}}
-                                </h5>
-                                <p class="card-text">{{business.email}}</p>
-                                <p class="card-text">Owner: <small class="text-muted"> {{ business.user.user.username|title }}</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    {% endfor %}
-                  
-                </div>
+                <h2 class="D-block mx-auto tt text-center"><b><u>Neighbourhood Posts</u></b></h2>
                 <br>
                 <br>
-                <hr>
-                <br>
-                <br>
-                <h3 class="D-block mx-auto tt text-center"><b>Posts</b></h3>
-                <br>
-                <br>
-                <div class="row">
+                <div class="col-11">
                     {% for post in posts %}
-                    <div class="container col-md-6">
-                        <div class="card mb-4 hpost">
-                            <div class="card-body">
+                    <div class="card mr-0" style="max-width:70rem; margin-top:5px;">
+                        <div class="container">
+                            <div class="media-left media-top">
                                 <h4 class="card-title"><b>{{post.title}}</b></h4>
                                 <br>
 
@@ -107,8 +83,36 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <hr>
+                    <br>
                     {% endfor %}
 
+                </div>
+                <br>
+                <hr>
+                <br>
+                <h2 class="D-block mx-auto tt text-center"><b><u>Community Businesses</u></b></h2>
+                <br>
+                <div class="row">
+                    {% for bus in business %}
+                    <div class="col-md-4">
+                        <br>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title"><b>{{bus.name}}</b></h4>
+                                <br>
+                                <p class="card-text">Email Address: <i>{{bus.email}}</i></p>
+                                <br>
+                                <p class="card-text">Owner: <small class="text-muted"> {{ bus.user.user.username|title }}</small></p>
+                                <br>
+                                <hr>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                  
                 </div>
                 <br>
                 <hr>
