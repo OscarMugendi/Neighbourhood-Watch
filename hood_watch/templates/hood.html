@@ -90,18 +90,25 @@
 
                 </div>
                 <br>
-                <hr>
                 <br>
-                <h2 class="D-block mx-auto tt text-center"><b><u>Community Businesses</u></b></h2>
+                <h2 class="D-block mx-auto tt text-center"><b><u>Businesses</u></b></h2>
+                <br>
                 <br>
                 <div class="row">
                     {% for bus in business %}
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <br>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <h4 class="card-title"><b>{{bus.name}}</b></h4>
+                                <h4 class="card-title"><b><u>{{bus.name}}</u></b></h4>
                                 <br>
+                                
+                                {% if bus.description %}
+                                <i class="card-text"><b>{{bus.description}}</b></i>
+                                <br>
+                                <br>
+                                {% endif %}
+                                    
                                 <p class="card-text">Email Address: <i>{{bus.email}}</i></p>
                                 <br>
                                 <p class="card-text">Owner: <small class="text-muted"> {{ bus.user.user.username|title }}</small></p>
@@ -115,7 +122,6 @@
                   
                 </div>
                 <br>
-                <hr>
                 <br>
             </div>
         </div>
